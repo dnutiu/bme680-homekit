@@ -1,0 +1,10 @@
+[Unit]
+Description=Bme680 Homekit service
+After=local-fs.target network-online.target
+
+[Service]
+User=pi
+ExecStart=/usr/bin/python3 /home/pi/bme680-homekit/main.py
+
+[Install]
+WantedBy=multi-user.target
