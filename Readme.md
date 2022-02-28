@@ -1,7 +1,13 @@
 
 # Introduction
 
-Expose BME680 sensor readings to Apple Homekit.
+Simple script to add BME680 sensor readings to Apple Homekit using a Raspberry PI with minimal configuration.
+
+After running the program you'll be given the QR code used to add the sensor as an accessory in Homekit.
+
+![](./docs/add_to_home.png)
+
+![](./docs/homekit_view.jpg)
 
 ## Installing
 
