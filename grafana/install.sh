@@ -4,6 +4,8 @@ apt-get update
 apt-get install -y grafana
 
 cp grafana.ini /etc/grafana/grafana.ini
+iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 3000
+
 systemctl daemon-reload
 systemctl enable grafana-server
 systemctl start grafana-server
