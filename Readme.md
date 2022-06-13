@@ -23,6 +23,11 @@ pip3 install -r requirements.txt
 
 ### Sensors
 
+The `sensors` directory contains code for operating the bme680 sensor. 
+
+The sensor values are collected and exposed in HomeKit and as prometheus metrics. 
+The prometheus metrics can be accessed on port `8000`.
+
 Run the program once to pair it with your ios. ex:
 
 ```bash
