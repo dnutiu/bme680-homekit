@@ -71,3 +71,9 @@ sudo systemctl status bme680-homekit
 
 Feb 21 20:10:30 raspberrypi systemd[1]: Started Bme680 Homekit service.
 ```
+
+### Prometheus
+
+Prometheus is a system for monitoring and alerting. To install it run `prometheus./install.sh`.
+
+Prometheus server will listen on port `:9090`
