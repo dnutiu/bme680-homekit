@@ -33,7 +33,7 @@ class Bme680Sensor(Accessory):
             self.sensor.select_gas_heater_profile(0)
 
         self._temperature_metric = Gauge(
-            "bme680_tempetaure_celsius", "The temperature measurement in celsius."
+            "bme680_temperature_celsius", "The temperature measurement in celsius."
         )
         self._humidity_metric = Gauge(
             "bme680_humidity_rh", "The humidity measurement in relative humidity."
