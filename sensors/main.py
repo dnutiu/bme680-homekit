@@ -1,3 +1,4 @@
+import os
 import signal
 from pyhap.accessory import Accessory, Bridge
 import bme680
@@ -25,6 +26,12 @@ class Bme680Sensor(Accessory):
         self.sensor.set_temperature_oversample(bme680.OS_8X)
         self.sensor.set_filter(bme680.FILTER_SIZE_3)
 
+        if os.getenv("ENABLE_GAS_MEASUREMENT", "false") == "true":
+            self.sensor.set_gas_status(bme680.ENABLE_GAS_MEAS)
+            self.sensor.set_gas_heater_temperature(320)
+            self.sensor.set_gas_heater_duration(150)
+            self.sensor.select_gas_heater_profile(0)
+
         self._temperature_metric = Gauge(
             "bme680_tempetaure_celsius", "The temperature measurement in celsius."
         )
@@ -47,7 +54,7 @@ class Bme680Sensor(Accessory):
             "CurrentRelativeHumidity"
         )
 
-    @Accessory.run_at_interval(3)
+    @Accessory.run_at_interval(30)
     def run(self):
         """We override this method to implement what the accessory will do when it is
         started.
