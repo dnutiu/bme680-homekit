@@ -11,7 +11,9 @@ After running the program you'll be given the QR code used to add the sensor as 
 
 ## Installing
 
-Ensure you are the `pi` user. Clone the repo in home and then install requirements. 
+Ensure you are the `pi` user. Clone the repo in home and then install requirements.
+
+### Cloning the project
 
 ```bash
 cd /home/pi && git clone git@github.com:dnutiu/bme680-homekit.git && cd bme680-homekit
@@ -19,9 +21,12 @@ sudo apt-get install libavahi-compat-libdnssd-dev
 pip3 install -r requirements.txt
 ```
 
+### Sensors
+
 Run the program once to pair it with your ios. ex:
 
 ```bash
+cd sensors
 python3 main.py 
 Setup payload: X-HM://0023K50QET2YB
 Scan this code with your HomeKit app on your iOS device:
