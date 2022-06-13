@@ -6,7 +6,7 @@ After=local-fs.target network-online.target
 Restart=on-failure
 RestartSec=5s
 User=pi
-ExecStart=/usr/bin/python3 /home/pi/sensors/bme680-homekit/main.py
+ExecStart=/usr/bin/python3 /home/pi/bme680-homekit/sensors/main.py
 
 [Install]
 WantedBy=multi-user.target
