@@ -57,7 +57,7 @@ def get_bridge(accessory_driver):
 
 
 if __name__ == '__main__':
-    driver = AccessoryDriver(port=51826, persist_file="/home/pi/bme680-homekit/accessory.state")
+    driver = AccessoryDriver(port=51826, persist_file="/home/pi/bme680-homekit/sensors/accessory.state")
     driver.add_accessory(accessory=get_bridge(driver))
     signal.signal(signal.SIGTERM, driver.signal_handler)
     driver.start()
