@@ -77,3 +77,9 @@ Feb 21 20:10:30 raspberrypi systemd[1]: Started Bme680 Homekit service.
 Prometheus is a system for monitoring and alerting. To install it run `prometheus./install.sh`.
 
 Prometheus server will listen on port `:9090`
+
+### Grafana 
+
+Grafana can be used to create dashboard and visualise prometheus metrics. To install it run `grafana/install.sh`
+
+Grafana is accessible on port `:80`.
