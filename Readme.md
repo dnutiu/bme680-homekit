@@ -82,4 +82,6 @@ Prometheus server will listen on port `:9090`
 
 Grafana can be used to create dashboard and visualise prometheus metrics. To install it run `grafana/install.sh`
 
-Grafana is accessible on port `:80`.
+Grafana is accessible on port `:80`. Premade dashboards can be found in the `grafana/dashboards` folder.
+
+![](./docs/grafana_dashboard.png)
