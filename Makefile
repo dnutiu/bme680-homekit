@@ -1,0 +1,2 @@
+fmt:
+	black . && isort -rc .
