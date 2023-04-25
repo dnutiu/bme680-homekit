@@ -78,7 +78,7 @@ class Bme680Sensor(Accessory):
             if self.sensor.data.heat_stable:
                 self._gas_resistance_metric.set(self.sensor.data.gas_resistance)
 
-    @Accessory.run_at_interval(30)
+    @Accessory.run_at_interval(120)
     def run(self):
         """We override this method to implement what the accessory will do when it is
         started.
