@@ -1,10 +1,21 @@
+import logging
 import os
 import signal
-from pyhap.accessory import Accessory, Bridge
+import sys
+
 import bme680
+from prometheus_client import Gauge, start_http_server
+from pyhap.accessory import Accessory, Bridge
 from pyhap.accessory_driver import AccessoryDriver
 from pyhap.const import CATEGORY_SENSOR
-from prometheus_client import start_http_server, Gauge
+
+
+def fail(message: str):
+    """
+    Fail crashes the program and logs the message.
+    """
+    logging.critical(message)
+    sys.exit(1)
 
 
 class Bme680Sensor(Accessory):
@@ -54,14 +65,7 @@ class Bme680Sensor(Accessory):
             "CurrentRelativeHumidity"
         )
 
-    @Accessory.run_at_interval(30)
-    def run(self):
-        """We override this method to implement what the accessory will do when it is
-        started.
-
-        We set the current temperature to a random number. The decorator runs this method
-        every 3 seconds.
-        """
+    def _run(self):
         if self.sensor.get_sensor_data():
             self.temp_value.set_value(self.sensor.data.temperature)
             self.humidity_value.set_value(self.sensor.data.humidity)
@@ -73,6 +77,20 @@ class Bme680Sensor(Accessory):
 
             if self.sensor.data.heat_stable:
                 self._gas_resistance_metric.set(self.sensor.data.gas_resistance)
+
+    @Accessory.run_at_interval(30)
+    def run(self):
+        """We override this method to implement what the accessory will do when it is
+        started.
+
+        We set the current temperature to a random number. The decorator runs this method
+        every 3 seconds.
+        """
+        try:
+            self._run()
+        except IOError as e:
+            # This happens from time to time, best we stop and let systemd restart us.
+            fail(f"Failed due to IOError: {e}")
 
     def stop(self):
         """We override this method to clean up any resources or perform final actions, as
