@@ -80,11 +80,8 @@ class Bme680Sensor(Accessory):
 
     @Accessory.run_at_interval(120)
     def run(self):
-        """We override this method to implement what the accessory will do when it is
-        started.
-
-        We set the current temperature to a random number. The decorator runs this method
-        every 3 seconds.
+        """
+            This function runs the accessory. It polls for data and publishes it at the given interval.
         """
         try:
             self._run()
