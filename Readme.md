@@ -72,6 +72,25 @@ sudo systemctl status bme680-homekit
 Feb 21 20:10:30 raspberrypi systemd[1]: Started Bme680 Homekit service.
 ```
 
+## Troubleshooting
+
+If you get an error for FileNotFound:
+
+```
+Traceback (most recent call last):
+  File "/home/denis/bme680-homekit/sensors/main.py", line 112, in <module>
+    driver.add_accessory(accessory=get_bridge(driver))
+  File "/home/denis/bme680-homekit/sensors/main.py", line 101, in get_bridge
+    bridge.add_accessory(Bme680Sensor(accessory_driver, "Sensor"))
+  File "/home/denis/bme680-homekit/sensors/main.py", line 33, in __init__
+    self.sensor = bme680.BME680(bme680.I2C_ADDR_PRIMARY)
+  File "/home/denis/.local/lib/python3.9/site-packages/bme680/__init__.py", line 43, in __init__
+    self._i2c = smbus.SMBus(1)
+FileNotFoundError: [Errno 2] No such file or director
+```
+
+You will need to active I2C interface with `sudo raspi-config` -> Interfacing -> I2C
+
 ### Prometheus
 
 Prometheus is a system for monitoring and alerting. To install it run `prometheus./install.sh`.
