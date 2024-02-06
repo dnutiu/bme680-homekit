@@ -1,0 +1,12 @@
+prometheus:
+  enabled: yes
+  port: 8000
+hap:
+  port: 51826
+  persist_file: /home/pi/bme680-homekit/sensors/accessory.state
+  bridge:
+    display_name: Bridge
+    bme680:
+      enabled: yes
+      address: 118 # Primary I2C Address
+      name: "Climate Sensor"
