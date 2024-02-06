@@ -113,7 +113,12 @@ You will need to active I2C interface with `sudo raspi-config` -> Interfacing ->
 
 ### Prometheus
 
-Prometheus is a system for monitoring and alerting. To install it run `prometheus./install.sh`.
+Prometheus is a system for monitoring and alerting. 
+
+Before installing Prometheus you will need to tweak the `prometheus/prometheus.service` file, especially the config
+file and storage path since they contain the hardcoded string: `/home/pi/bme680-homekit/`.
+
+To install it run `prometheus./install.sh`.
 
 Prometheus server will listen on port `:9090`
 
