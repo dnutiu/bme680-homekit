@@ -43,4 +43,5 @@ if __name__ == "__main__":
     )
     driver.add_accessory(accessory=get_bridge(driver, settings))
     signal.signal(signal.SIGTERM, driver.signal_handler)
+    signal.signal(signal.SIGINT, driver.signal_handler)
     driver.start()
