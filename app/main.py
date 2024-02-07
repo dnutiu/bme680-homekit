@@ -1,3 +1,5 @@
+import logging
+import pprint
 import signal
 
 from prometheus_client import start_http_server
@@ -28,7 +30,10 @@ def get_bridge(accessory_driver: AccessoryDriver, settings: Settings):
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level="INFO")
     settings = Settings()
+    logging.info("Running with settings:")
+    logging.info(pprint.pformat(settings.model_dump()))
     # Start prometheus metrics server. Any metrics will be registered automatically.
     if settings.prometheus.enabled:
         start_http_server(settings.prometheus.port)
