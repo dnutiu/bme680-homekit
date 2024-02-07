@@ -1,3 +1,4 @@
+import asyncio
 import logging
 import pprint
 import signal
@@ -29,7 +30,7 @@ def get_bridge(accessory_driver: AccessoryDriver, settings: Settings):
     return bridge
 
 
-if __name__ == "__main__":
+async def main():
     logging.basicConfig(level="INFO")
     settings = Settings()
     logging.info("Running with settings:")
@@ -45,3 +46,7 @@ if __name__ == "__main__":
     signal.signal(signal.SIGTERM, driver.signal_handler)
     signal.signal(signal.SIGINT, driver.signal_handler)
     driver.start()
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
