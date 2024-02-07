@@ -5,6 +5,7 @@ import sys
 from prometheus_client import Gauge
 from pyhap.accessory import Accessory
 from pyhap.const import CATEGORY_SENSOR
+import bme680
 
 from app.config import Settings
 

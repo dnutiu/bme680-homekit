@@ -3,3 +3,4 @@ HAP-python==4.4.0
 prometheus-client== 0.19.0
 PyYAML==6.0.1
 pydantic~=2.6.1
+pydantic-settings==2.1.0
