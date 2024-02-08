@@ -39,6 +39,7 @@ class Pms5003Sensor(Accessory):
         This function runs the accessory. It polls for data and updates prometheus metrics.
         """
         try:
+            logging.info("Reading data from PMS5003 sensor.")
             data = self.sensor.read()
 
             self._pms5003_pm_ug_per_m3_1.set(data.pm_ug_per_m3(1.0))

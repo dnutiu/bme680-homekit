@@ -79,6 +79,7 @@ class Bme680Sensor(Accessory):
         This function runs the accessory. It polls for data and publishes it at the given interval.
         """
         try:
+            logging.info("Reading data from BME680 sensor.")
             self._run()
         except IOError as e:
             # This happens from time to time, best we stop and let systemd restart us.
