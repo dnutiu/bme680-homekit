@@ -24,6 +24,14 @@ class Bme680Settings(BaseModel):
     name: str = Field("Climate Sensor", description="The name of the sensor.")
 
 
+class Pms5003ModuleSettings(BaseModel):
+    enabled: bool = Field(True, description="If sensor should be enabled or not.")
+    device: str = Field("/dev/ttyUSB0", description="The TTY path of the sensor.")
+    baudrate: int = Field(9600, description="The baudrate of the serial port.")
+    pin_enable: str = Field("GPIO22", description="The pin enable.")
+    pin_reset: str = Field("GPIO27", description="The pin reset.")
+
+
 class BridgeSettings(BaseModel):
     display_name: str = Field(
         "Bridge", description="The display name of the HAP bridge."
@@ -31,6 +39,7 @@ class BridgeSettings(BaseModel):
     bme680: Bme680Settings = Field(
         Bme680Settings(), description="Settings for the BME680 module."
     )
+    pms5003: Pms5003ModuleSettings = Field(Pms5003ModuleSettings(), description="Settings for the PMS5003 sensor.")
 
 
 class HomekitAccessoryProtocolSettings(BaseModel):
