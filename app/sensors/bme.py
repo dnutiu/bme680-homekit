@@ -1,21 +1,13 @@
 import logging
 import os
-import signal
 import sys
 
-import bme680
-from prometheus_client import Gauge, start_http_server
-from pyhap.accessory import Accessory, Bridge
-from pyhap.accessory_driver import AccessoryDriver
+from prometheus_client import Gauge
+from pyhap.accessory import Accessory
 from pyhap.const import CATEGORY_SENSOR
+import bme680
 
-
-def fail(message: str):
-    """
-    Fail crashes the program and logs the message.
-    """
-    logging.critical(message)
-    sys.exit(1)
+from app.config import Settings
 
 
 class Bme680Sensor(Accessory):
@@ -23,14 +15,17 @@ class Bme680Sensor(Accessory):
 
     category = CATEGORY_SENSOR  # This is for the icon in the iOS Home app.
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, driver, display_name, *, aid=None, settings: Settings):
         """Here, we just store a reference to the current temperature characteristic and
         add a method that will be executed every time its value changes.
         """
         # If overriding this method, be sure to call the super's implementation first.
-        super().__init__(*args, **kwargs)
+        super().__init__(driver, display_name, aid=aid)
 
-        self.sensor = bme680.BME680(bme680.I2C_ADDR_PRIMARY)
+        self.settings = settings
+        self.sensor = bme680.BME680(
+            settings.hap.bridge.bme680.address or bme680.I2C_ADDR_PRIMARY
+        )
 
         self.sensor.set_humidity_oversample(bme680.OS_2X)
         self.sensor.set_pressure_oversample(bme680.OS_4X)
@@ -81,34 +76,17 @@ class Bme680Sensor(Accessory):
     @Accessory.run_at_interval(120)
     def run(self):
         """
-            This function runs the accessory. It polls for data and publishes it at the given interval.
+        This function runs the accessory. It polls for data and publishes it at the given interval.
         """
         try:
             self._run()
         except IOError as e:
             # This happens from time to time, best we stop and let systemd restart us.
-            fail(f"Failed due to IOError: {e}")
+            logging.critical("Failed to run BME680.")
+            sys.exit(1)
 
     def stop(self):
         """We override this method to clean up any resources or perform final actions, as
         this is called by the AccessoryDriver when the Accessory is being stopped.
         """
         print("Stopping accessory.")
-
-
-def get_bridge(accessory_driver):
-    bridge = Bridge(accessory_driver, "Bridge")
-    bridge.add_accessory(Bme680Sensor(accessory_driver, "Sensor"))
-    return bridge
-
-
-if __name__ == "__main__":
-    # Prometheus' metrics server
-    start_http_server(8000)
-    # Python HAP
-    driver = AccessoryDriver(
-        port=51826, persist_file="/home/pi/bme680-homekit/sensors/accessory.state"
-    )
-    driver.add_accessory(accessory=get_bridge(driver))
-    signal.signal(signal.SIGTERM, driver.signal_handler)
-    driver.start()

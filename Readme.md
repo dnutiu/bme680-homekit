@@ -1,4 +1,3 @@
-
 # Introduction
 
 Simple script utilities to add BME680 sensor readings to Apple Homekit using a Raspberry PI with minimal configuration.
@@ -21,18 +20,29 @@ sudo apt-get install libavahi-compat-libdnssd-dev
 pip3 install -r requirements.txt
 ```
 
-### Sensors
+### Application
 
-The `sensors` directory contains code for operating the bme680 sensor. 
+The `app` directory contains the source code of this application
 
-The sensor values are collected and exposed in HomeKit and as prometheus metrics. 
-The prometheus metrics can be accessed on port `8000`.
+Sensor values are collected and exposed in HomeKit and as prometheus metrics.
+
+By default, metrics can be accessed on port `8000`.
+
+
+
+### Configuration
+
+Before running the program edit the `config.yaml` file and replace at least `persist_file` field.
+
+The program will search for the `config.yaml` file in the current directory but this can be configured to another directory
+by settings the `HOMEKIT_CONFIG` environment variable.
+
+### Running
 
 Run the program once to pair it with your ios. ex:
 
 ```bash
-cd sensors
-python3 main.py 
+python3 -m app.main 
 Setup payload: X-HM://0023K50QET2YB
 Scan this code with your HomeKit app on your iOS device:
 
@@ -40,10 +50,19 @@ Or enter this code in your HomeKit app on your iOS device: 053-86-998
 
 ```
 
+### SystemD Service
+
+Edit `./systemd/bme680-homekit.service` and replace relevant variables such as `WorkingDirectory`, `ExecStart`
+and `User`.
+
+Run `sudo ./systemd/install.sh` to install SystemD service automatically on your system.
+
+Or follow the manual steps.
+
 Copy the systemd service.
 
 ```bash
-sudo cp bme680-homekit.service /etc/systemd/system
+sudo cp ./systemd/bme680-homekit.service /etc/systemd/system
 sudo systemctl status bme680-homekit
 ```
 
@@ -54,6 +73,7 @@ sudo systemctl status bme680-homekit
 ```
 
 Start the service
+
 ```bash
 sudo systemctl start bme680-homekit
 sudo systemctl status bme680-homekit
@@ -93,11 +113,16 @@ You will need to active I2C interface with `sudo raspi-config` -> Interfacing ->
 
 ### Prometheus
 
-Prometheus is a system for monitoring and alerting. To install it run `prometheus./install.sh`.
+Prometheus is a system for monitoring and alerting. 
+
+Before installing Prometheus you will need to tweak the `prometheus/prometheus.service` file, especially the config
+file and storage path since they contain the hardcoded string: `/home/pi/bme680-homekit/`.
+
+To install it run `prometheus./install.sh`.
 
 Prometheus server will listen on port `:9090`
 
-### Grafana 
+### Grafana
 
 Grafana can be used to create dashboard and visualise prometheus metrics. To install it run `grafana/install.sh`
 

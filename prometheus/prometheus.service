@@ -6,12 +6,12 @@ After=network-online.target
 [Service]
 Restart=on-failure
 RestartSec=5s
-User=pi
+User=denis
 Restart=on-failure
 
-ExecStart=/home/pi/bme680-homekit/prometheus/prometheus-2.36.1.linux-armv6/prometheus \
-  --config.file=/home/pi/bme680-homekit/prometheus/prometheus.yml \
-  --storage.tsdb.path=/home/pi/bme680-homekit/prometheus/data
+ExecStart=/home/denis/bme680-homekit/prometheus/prometheus-2.36.1.linux-armv6/prometheus \
+  --config.file=/home/denis/bme680-homekit/prometheus/prometheus.yml \
+  --storage.tsdb.path=/home/denis/bme680-homekit/prometheus/data
 
 [Install]
 WantedBy=multi-user.target
