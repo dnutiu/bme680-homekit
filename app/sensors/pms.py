@@ -45,6 +45,8 @@ class Pms5003Sensor(Accessory):
             self._pms5003_pm_ug_per_m3_1.set(data.pm_ug_per_m3(1.0))
             self._pms5003_pm_ug_per_m3_2.set(data.pm_ug_per_m3(2.5))
             self._pms5003_pm_ug_per_m3_10.set(data.pm_ug_per_m3(10))
+
+            logging.info(f"PM1.0 {data.pm_ug_per_m3(1.0)} PM2.5 {data.pm_ug_per_m3(2.5)} PM10 {data.pm_ug_per_m3(10)}")
         except IOError as e:
             # This happens from time to time, best we stop and let systemd restart us.
             logging.critical("Failed to read data from serial.")

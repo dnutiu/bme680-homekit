@@ -73,6 +73,10 @@ class Bme680Sensor(Accessory):
             if self.sensor.data.heat_stable:
                 self._gas_resistance_metric.set(self.sensor.data.gas_resistance)
 
+            logging.info(
+                f"T: {self.sensor.data.temperature}; H: {self.sensor.data.humidity}: P: {self.sensor.data.pressure}")
+            logging.info(f"G: {self.sensor.data.gas_resistance}")
+
     @Accessory.run_at_interval(120)
     def run(self):
         """
