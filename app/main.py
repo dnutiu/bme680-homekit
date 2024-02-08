@@ -8,6 +8,7 @@ from pyhap.accessory_driver import AccessoryDriver
 
 from app.config import Settings
 from app.sensors.bme import Bme680Sensor
+from app.sensors.pms import Pms5003Sensor
 
 
 def get_bridge(accessory_driver: AccessoryDriver, settings: Settings):
@@ -23,8 +24,12 @@ def get_bridge(accessory_driver: AccessoryDriver, settings: Settings):
     if settings.hap.bridge.bme680.enabled:
         bridge.add_accessory(
             Bme680Sensor(
-                accessory_driver, settings.hap.bridge.bme680.name, settings=settings
+                accessory_driver, settings=settings
             )
+        )
+    if settings.hap.bridge.pms5003.enabled:
+        bridge.add_accessory(
+            Pms5003Sensor(accessory_driver, settings=settings)
         )
     return bridge
 
@@ -43,5 +48,4 @@ if __name__ == "__main__":
     )
     driver.add_accessory(accessory=get_bridge(driver, settings))
     signal.signal(signal.SIGTERM, driver.signal_handler)
-    signal.signal(signal.SIGINT, driver.signal_handler)
     driver.start()
