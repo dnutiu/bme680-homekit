@@ -27,10 +27,10 @@ class Pms5003Sensor(Accessory):
             "pms5003_pm_ug_per_m3_1", "The PM1.0 ug/m3 (ultrafine particles)."
         )
         self._pms5003_pm_ug_per_m3_2 = Gauge(
-            "pms5003_pm_ug_per_m3_1", "PM2.5 ug/m3 (combustion particles, organic compounds, metals)."
+            "pms5003_pm_ug_per_m3_2", "PM2.5 ug/m3 (combustion particles, organic compounds, metals)."
         )
         self._pms5003_pm_ug_per_m3_10 = Gauge(
-            "pms5003_pm_ug_per_m3_1", "PM10 ug/m3  (dust, pollen, mould spores)"
+            "pms5003_pm_ug_per_m3_10", "PM10 ug/m3  (dust, pollen, mould spores)"
         )
 
     @Accessory.run_at_interval(120)
